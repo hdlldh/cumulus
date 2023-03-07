@@ -8,6 +8,6 @@ services:
       - "8081:8081"
   lang-detec:
     build:
-      dockerfile: LangDetec-Dockerfile
+      dockerfile: LangDetect-Dockerfile
     ports:
       - "8082:8082"
