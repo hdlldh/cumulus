@@ -11,3 +11,4 @@ services:
       dockerfile: LangDetect-Dockerfile
     ports:
       - "8082:8082"
+      

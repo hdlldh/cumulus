@@ -4,7 +4,7 @@ from typing import List
 from transformers import pipeline
 
 # load the model bert-base-uncased
-unmasker = pipeline('fill-mask', model='bert-base-uncased')
+model = pipeline('fill-mask', model='fill-mask-bert-base')
 
 app = FastAPI()
 
@@ -28,15 +28,7 @@ async def hello():
 @app.post("/unmask")
 async def unmask(payload: ModelInput) -> ModelOutput:
     masked_str = payload.input
-    unmasked_res = unmasked(masked_str)
-    return ModelOutput(input=masked_str, output=unmasked_res) 
-
-def unmasked(x: str) -> List[ModelPrediction]:
-    y = unmasker(x)
-    y.sort(key=lambda i: i['score'], reverse=True)
-    return [ModelPrediction.parse_obj(i) for i in y]
-
-@app.on_event("startup")
-async def init():
-    print("init called to load model for bert-base-uncased")
-    return unmasked("[MASK] is a music instrument.")
+    preds = model(masked_str)
+    preds.sort(key=lambda i: i['score'], reverse=True)
+    unmasked_resp = [ModelPrediction.parse_obj(i) for i in preds]
+    return ModelOutput(input=masked_str, output=unmasked_resp) 
