@@ -6,7 +6,7 @@ services:
       dockerfile: FillMask-Dockerfile
     ports:
       - "8081:8081"
-  lang-detec:
+  lang-detect:
     build:
       dockerfile: LangDetect-Dockerfile
     ports:
